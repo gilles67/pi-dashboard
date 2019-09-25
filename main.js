@@ -10,8 +10,9 @@ let winApp = []
 function createWindow () {
   // Créer le browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    //width: 800,
+    //height: 600,
+    kiosk: true,
     webPreferences: {
       nodeIntegration: true
     }
