@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="h-100">
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="./css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <script type="text/javascript">
+      const ipc = require('electron').ipcRenderer
+      window.$ = window.jQuery = require('jquery');
+    </script>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <main role="main" class="flex-shrink-0">
+      <div class="container">
+
+      </div>
+    </main>
+    <footer class="footer mt-auto py-3">
+      <nav class="navbar navbar-expand-md navbar-dark fixed-bottom bg-dark">
+        <button id="btnHome"class="btn btn-secondary my-2 my-sm-0"><i class="fas fa-home"></i></button>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+        </ul>
+        <button id="btnShutdown" class="btn btn-danger my-2 my-sm-0" data-toggle="modal" data-target="#shutdownModal" ><i class="fas fa-power-off"></i></button>
+      </nav>
+    </footer>
+
+
+    <script type="text/javascript" src="./js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+      $( document ).ready(function() {
+        console.log("ready!")
+        //$("#btnHome").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'reboot') })
+        $("#btnShutdown").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'querywin') })
+        //$("#btnShutdownReboot").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'reboot') })
+        //$("#btnShutdownShutdown").click(function() {  console.log("btnShutdownShutdown"); ipc.send('request-shutdown', 'shutdown') })
+      })
+    </script>
+  </body>
+</html>
