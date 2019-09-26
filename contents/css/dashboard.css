@@ -1,0 +1,8 @@
+body {
+  background: center no-repeat url(../images/background.png);
+}
+
+
+.bg-sombre {
+  background-color: rgba(52, 58, 64, 0.5);
+}

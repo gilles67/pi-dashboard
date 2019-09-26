@@ -6,6 +6,7 @@ const BrowserWindow = electron.BrowserWindow
 let win
 let winShutdown
 let winApp = []
+let navbarHeight = 0;
 
 function createWindow () {
   // Créer le browser window.
@@ -43,7 +44,7 @@ function createShutdownWindow() {
       nodeIntegration: true
     }
   });
-  //winShutdown.webContents.openDevTools()
+  winShutdown.webContents.openDevTools()
   winShutdown.setBounds(win.getBounds());
   winShutdown.loadFile('contents/main-shutdown.html');
   winShutdown.on('closed', () => {
@@ -59,11 +60,18 @@ function createAppWindow(id, url) {
     }
   });
   winApp[id].setBounds(win.getBounds());
+  winSize = win.getBounds();
+  winApp[id].setSize(winSize['width'], winSize['height'] - navbarHeight);
+  winApp[id].loadURL(url);
+
   winApp[id].on('closed', () => {
     winApp[id] = null
   })
 }
 
+ipc.on('open-app', function(event, arg) {
+  createAppWindow(arg['id'], arg['url']);
+})
 
 ipc.on('request-shutdown', function(event, arg) {
   console.log("Request shutdown, option : " , arg)
@@ -81,5 +89,12 @@ ipc.on('request-shutdown', function(event, arg) {
   }
   else if (arg == "querywin") {
     createShutdownWindow()
+  }
+})
+
+ipc.on('notify', function(event, arg) {
+  if( 'navbar-height' in arg) {
+      navbarHeight = arg['navbar-height'];
+      console.log("navbarHeight", navbarHeight);
   }
 })

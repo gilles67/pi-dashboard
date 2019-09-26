@@ -7,35 +7,42 @@
     <link rel="stylesheet" href="./css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="./css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
     <script type="text/javascript">
       const ipc = require('electron').ipcRenderer
+      const fs = require("fs");
       window.$ = window.jQuery = require('jquery');
+      let apps = JSON.parse(fs.readFileSync('./config/apps.json', 'utf8'));
     </script>
   </head>
   <body class="d-flex flex-column h-100">
     <main role="main" class="flex-shrink-0">
-      <div class="container">
+      <div class="container" id="mainContainer">
 
       </div>
     </main>
     <footer class="footer mt-auto py-3">
-      <nav class="navbar navbar-expand-md navbar-dark fixed-bottom bg-dark">
+      <nav class="navbar navbar-expand-md navbar-dark fixed-bottom bg-dark" id="mainNavbar">
         <button id="btnHome"class="btn btn-secondary my-2 my-sm-0"><i class="fas fa-home"></i></button>
         <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
         </ul>
         <button id="btnShutdown" class="btn btn-danger my-2 my-sm-0" data-toggle="modal" data-target="#shutdownModal" ><i class="fas fa-power-off"></i></button>
       </nav>
     </footer>
-
-
     <script type="text/javascript" src="./js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
       $( document ).ready(function() {
         console.log("ready!")
         //$("#btnHome").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'reboot') })
         $("#btnShutdown").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'querywin') })
-        //$("#btnShutdownReboot").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'reboot') })
-        //$("#btnShutdownShutdown").click(function() {  console.log("btnShutdownShutdown"); ipc.send('request-shutdown', 'shutdown') })
+        ipc.send('notify', {'navbar-height': $("#mainNavbar").outerHeight()});
+
+
+        apps.apps.forEach(function(item){
+          var appButton = $('<button class="btn btn-primary"></button>').append(item.id)
+          appButton.click(function() {  ipc.send('open-app', item) })
+          $("#mainContainer").append($('<div class="col"></div>').append(appButton))
+        })
       })
     </script>
   </body>
