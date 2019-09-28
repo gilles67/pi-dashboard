@@ -86,10 +86,6 @@ ipc.on('request-shutdown', function(event, arg) {
   else if (arg == "querywin") {
     createShutdownWindow()
   }
-  else if (arg == "querywait") {
-    openWaitWindow()
-  }
-
 })
 
 // Waiting window
@@ -105,7 +101,7 @@ function openWaitWindow() {
         nodeIntegration: true
       }
     });
-    winWait.webContents.openDevTools()
+    //winWait.webContents.openDevTools()
     winWait.setBounds(win.getBounds());
     winWait.loadFile('contents/main-wait.html');
     winWait.on('closed', () => {
@@ -118,6 +114,9 @@ ipc.on('request-wait', function(event, arg) {
   console.log("Request wait, option : " , arg)
   if(arg == "cancelwin") {
     winWait.hide();
+  }
+  else if (arg == "querywait") {
+    openWaitWindow()
   }
 })
 

@@ -33,7 +33,7 @@
     <script type="text/javascript">
       $( document ).ready(function() {
         console.log("ready!")
-        $("#btnHome").click(function() { })
+        $("#btnHome").click(function() { ipc.send('request-wait', 'querywait') })
         $("#btnShutdown").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'querywin') })
         ipc.send('notify', {'navbar-height': $("#mainNavbar").outerHeight()});
         apps.apps.forEach(function(item){
@@ -53,7 +53,7 @@
         window.onkeypress = resetTimer;  //catches keyboard actions
 
        function showIdleWindow() {
-              ipc.send('request-shutdown', 'querywait')
+              ipc.send('request-wait', 'querywait')
        }
 
        function resetTimer() {
