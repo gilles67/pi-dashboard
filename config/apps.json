@@ -1,9 +1,13 @@
 {
   "apps": [{
-    "id":"google-web",
-    "url":"http://www.google.fr"
+    "id":"volumio-app",
+    "name": "Volumio",
+    "icon": "./images/icones/volumio.png",
+    "url":"http://vol1.local"
     },{
-      "id":"acc4-web",
-      "url": "http://www.accent4.com"
+      "id":"google-web",
+      "name": "Google",
+      "icon": "./images/icones/google.png",
+      "url": "http://www.google.fr"
       }]
 }

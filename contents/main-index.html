@@ -36,11 +36,42 @@
         $("#btnHome").click(function() { ipc.send('request-wait', 'querywait') })
         $("#btnShutdown").click(function() { console.log("btnShutdownReboot"); ipc.send('request-shutdown', 'querywin') })
         ipc.send('notify', {'navbar-height': $("#mainNavbar").outerHeight()});
+
+
+
+        var appCount = apps.apps.length;
+        while((appCount % 3) != 0) { appCount++ }
+
+        var curRow = null
+        for(var idx = 0; idx < appCount; idx++){
+          if((idx % 3) == 0){
+            curRow = $('<div class="row"></div>')
+            $("#mainContainer").append(curRow);
+          }
+          var item = null
+          if(item = apps.apps[idx]){
+            var appButton = $('<button id="'+ idx +'" class="btn btn-link"></button>')
+            appButton.append($('<img class="w-100" src="'+ item.icon  +'" alt="' + item.name +'" />'))
+            appButton.append($('<h4>'+ item.name +'</h4>'))
+            appButton.click(function(e) {
+              console.log(e, this, this.id)
+              ipc.send('open-app', apps.apps[this.id])
+            })
+            curRow.append($('<div class="col"></div>').append(appButton))
+          }
+          else {
+            curRow.append($('<div class="col">&nbsp;</div>'))
+          }
+        }
+
+
+        /*
         apps.apps.forEach(function(item){
           var appButton = $('<button class="btn btn-primary"></button>').append(item.id)
           appButton.click(function() {  ipc.send('open-app', item) })
           $("#mainContainer").append($('<div class="col"></div>').append(appButton))
         })
+        */
       })
 
       function idleTimer() {
